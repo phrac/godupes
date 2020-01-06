@@ -18,7 +18,6 @@ func main() {
     
     // build a map of all hashes
     for _, f := range files {
-        //fmt.Println("Hashing", f)
         file1, _ := os.Open(f)
         img1, err := jpeg.Decode(file1)
         if err != nil {
@@ -26,7 +25,6 @@ func main() {
             imgs[f], _ = goimagehash.ExtAverageHash(img1,16,16)
         }
         file1.Close()
-        //fmt.Println("Hashed %s", f)
     }
 
     // compare all of our collected hashes
@@ -37,11 +35,7 @@ func main() {
                 } else {
                     distance, _ := hash2.Distance(hash1)
                     if distance < 10 {
-                        // check if the dupe is already in the map
-                        if _, ok := dupes[img2]; ok {
-                        } else {
-                            dupes[img1] = append(dupes[img1], img2)
-                        }
+                        dupes[img1] = append(dupes[img1], img2)
                     }
                 }
             }
@@ -55,7 +49,9 @@ func main() {
         }
     }
 
-    // print all of our dupes
+    // print all of our dupes, 1 per line
+    // use external image viewer to confirm dupes:
+    // godupe . | sxiv -
     for d, s := range dupes {
         fmt.Println(d)
         for _, img := range s {
