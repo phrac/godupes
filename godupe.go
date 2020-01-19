@@ -16,7 +16,8 @@ func main() {
 	imgs := make(map[string]*goimagehash.ExtImageHash)
 	dupes := make(map[string][]string)
 	allc := make(map[string]bool)
-	files, err := filepath.Glob(os.Args[1] + "/*")
+	dir, err := os.Getwd()
+	files, err := filepath.Glob(dir + "/*")
 	if err != nil {
 		log.Fatal(err)
 	}
