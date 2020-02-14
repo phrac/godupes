@@ -1,16 +1,20 @@
 package main
 
-import "fmt"
-import "path/filepath"
-import "log"
-import "github.com/corona10/goimagehash"
-import "image/jpeg"
-import "os"
-import "flag"
+import (
+	"flag"
+	"fmt"
+	"image/jpeg"
+	"log"
+	"os"
+	"path/filepath"
+
+	"github.com/corona10/goimagehash"
+)
 
 func main() {
 
 	dt := flag.Int("d", 10, "Distance threshold to mark as duplicate")
+	s_size := flag.Int("s", 16, "Image sample size")
 	flag.Parse()
 
 	imgs := make(map[string]*goimagehash.ExtImageHash)
@@ -28,7 +32,7 @@ func main() {
 		img1, err := jpeg.Decode(file1)
 		if err != nil {
 		} else {
-			imgs[f], _ = goimagehash.ExtAverageHash(img1, 16, 16)
+			imgs[f], _ = goimagehash.ExtAverageHash(img1, *s_size, *s_size)
 		}
 		file1.Close()
 	}
